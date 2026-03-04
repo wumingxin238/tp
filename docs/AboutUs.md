@@ -17,3 +17,30 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Team Lead
 * Responsibilities: Scheduling & Tracking
+
+### Chua Chloe
+
+<img src="images/sqonky1.png" width="200px">
+
+[[github](http://github.com/sqonky1)]
+
+* Role: Developer
+* Responsibilities: UI, Deliverables, Deadlines
+
+### Zhang Zhuoyu
+
+<img src="images/wumingxin238.png" width="200px">
+
+[[github](https://github.com/wumingxin238)]
+
+* Role: Developer, Model IC
+* Responsibilities: In charge of the Model Folder
+
+### Nguyen Thai Binh
+
+<img src="images/nutabi.png" width="200px">
+
+[[github](https://github.com/nutabi)]
+
+* Role: Developer
+* Responsibilities: Testing IC, Storage
