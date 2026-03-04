@@ -17,9 +17,9 @@ Type the command in the command box and press Enter to execute it. e.g. typing h
 
 * Some example commands you can try:
 1. list : Lists all contacts.
-2. add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 : Adds a contact named John Doe to the Address Book. 
-3. delete 3 : Deletes the 3rd contact shown in the current list. 
-4. clear : Deletes all contacts. 
+2. add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 : Adds a contact named John Doe to the Address Book.
+3. delete 3 : Deletes the 3rd contact shown in the current list.
+4. clear : Deletes all contacts.
 5. exit : Exits the app.
 
 Known issues
