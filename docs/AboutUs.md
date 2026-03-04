@@ -16,4 +16,4 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/sqonky1)]
 
 * Role: Developer
-* Responsibilities: UI
+* Responsibilities: UI, Deliverables, Deadlines
