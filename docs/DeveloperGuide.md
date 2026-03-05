@@ -432,7 +432,7 @@ Use case ends.
   
   Use case ends.
 
-  
+
 **Use Case: UC06 - Add a tag to an existing contact**
 
 **Preconditions: Application is running**
