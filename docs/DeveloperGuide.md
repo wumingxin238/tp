@@ -339,7 +339,7 @@ Use case ends.
 **Preconditions: Application is running and the user has added a contact.**
 
 **MSS:**
-1. User requests to list contacts.
+1. User requests to list contacts (UC04).
 2. CampusBridge shows a list of contacts.
 3. User requests to edit a contact in the list.
 4. User provides new contact details for that contact.
@@ -379,7 +379,7 @@ Use case ends.
 **Preconditions: Application is running and the user has added a contact.**
 
 **MSS:**
-1. User requests to list contacts.
+1. User requests to list contacts (UC04).
 2. CampusBridge shows a list of contacts.
 3. User requests to delete a contact in the list.
 4. CampusBridge validates the input.
@@ -406,6 +406,26 @@ Use case ends.
     * 6a1. CampusBridge shows a failure message indicating that the list could not be saved.
 
   Use case ends.
+
+**Use Case: UC04 - View all contacts**
+
+**Preconditions: Application is running**
+
+**MSS:**
+
+1. User requests to list contacts.
+2. CampusBridge shows a list of all contacts.
+3. User can view details of each contact in the list.
+
+Use case ends.
+
+**Extensions:**
+
+* 1a. User input does not follow the specified format.
+    * 1a1. CampusBridge shows a failure message indicating that input is invalid.
+    * 1a2. CampusBridge requests the user to re-enter input.
+
+  Use case resumes at step 1.
 
 
 **Use Case: UC05 - Search contacts**
