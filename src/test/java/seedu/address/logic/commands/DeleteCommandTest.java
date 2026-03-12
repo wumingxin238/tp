@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -109,36 +110,52 @@ public class DeleteCommandTest {
 
     @Test
     public void equals() {
-        DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_PERSON);
-        DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_PERSON);
+        // Index-based delete commands
+        DeleteCommand deleteFirstIndex = new DeleteCommand(INDEX_FIRST_PERSON);
+        DeleteCommand deleteSecondIndex = new DeleteCommand(INDEX_SECOND_PERSON);
+        DeleteCommand deleteFirstIndexCopy = new DeleteCommand(INDEX_FIRST_PERSON);
 
-        DeleteCommand deleteEmailCommand =
-                new DeleteCommand(model.getFilteredPersonList().get(0).getEmail());
+        // Email-based DeleteCommands
+        Email emailAmy = new Email(VALID_EMAIL_AMY);
+        Email emailBob = new Email(VALID_EMAIL_BOB);
+        DeleteCommand deleteEmailAmy = new DeleteCommand(emailAmy);
+        DeleteCommand deleteEmailAmyCopy = new DeleteCommand(emailAmy);
+        DeleteCommand deleteEmailBob = new DeleteCommand(emailBob);
 
-        DeleteCommand deleteEmailCommandCopy =
-                new DeleteCommand(model.getFilteredPersonList().get(0).getEmail());
-
+        // --- Index command tests ---
         // same object -> returns true
-        assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
+        assertTrue(deleteFirstIndex.equals(deleteFirstIndex));
 
         // same values -> returns true
-        DeleteCommand deleteFirstCommandCopy = new DeleteCommand(INDEX_FIRST_PERSON);
-        assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
-
-        // email equality -> returns true
-        assertTrue(deleteEmailCommand.equals(deleteEmailCommandCopy));
+        assertTrue(deleteFirstIndex.equals(deleteFirstIndexCopy));
 
         // different types -> returns false
-        assertFalse(deleteFirstCommand.equals(1));
+        assertFalse(deleteFirstIndex.equals(1));
 
         // null -> returns false
-        assertFalse(deleteFirstCommand.equals(null));
+        assertFalse(deleteFirstIndex.equals(null));
 
         // different person -> returns false
-        assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
+        assertFalse(deleteFirstIndex.equals(deleteSecondIndex));
 
         // index vs email -> returns false
-        assertFalse(deleteFirstCommand.equals(deleteEmailCommand));
+        assertFalse(deleteFirstIndex.equals(deleteEmailAmy));
+
+        // --- Email command tests ---
+        // same object -> returns true
+        assertTrue(deleteEmailAmy.equals(deleteEmailAmy));
+
+        // same email -> returns true
+        assertTrue(deleteEmailAmy.equals(deleteEmailAmyCopy));
+
+        // different email -> returns false
+        assertFalse(deleteEmailAmy.equals(deleteEmailBob));
+
+        // email vs null -> false
+        assertFalse(deleteEmailAmy.equals(null));
+
+        // email vs index -> false
+        assertFalse(deleteEmailAmy.equals(deleteFirstIndex));
     }
 
 

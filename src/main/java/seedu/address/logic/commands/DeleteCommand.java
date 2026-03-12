@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_EMAIL;
 
 import java.util.List;
+import java.util.Objects;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
@@ -81,8 +82,8 @@ public class DeleteCommand extends Command {
         }
 
         DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        return java.util.Objects.equals(targetIndex, otherDeleteCommand.targetIndex)
-                && java.util.Objects.equals(targetEmail, otherDeleteCommand.targetEmail);
+        return Objects.equals(targetIndex, otherDeleteCommand.targetIndex)
+                && Objects.equals(targetEmail, otherDeleteCommand.targetEmail);
     }
 
     @Override
