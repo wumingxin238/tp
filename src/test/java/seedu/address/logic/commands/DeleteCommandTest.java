@@ -112,12 +112,21 @@ public class DeleteCommandTest {
         DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_PERSON);
         DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_PERSON);
 
+        DeleteCommand deleteEmailCommand =
+                new DeleteCommand(model.getFilteredPersonList().get(0).getEmail());
+
+        DeleteCommand deleteEmailCommandCopy =
+                new DeleteCommand(model.getFilteredPersonList().get(0).getEmail());
+
         // same object -> returns true
         assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
 
         // same values -> returns true
         DeleteCommand deleteFirstCommandCopy = new DeleteCommand(INDEX_FIRST_PERSON);
         assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
+
+        // email equality -> returns true
+        assertTrue(deleteEmailCommand.equals(deleteEmailCommandCopy));
 
         // different types -> returns false
         assertFalse(deleteFirstCommand.equals(1));
@@ -127,7 +136,11 @@ public class DeleteCommandTest {
 
         // different person -> returns false
         assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
+
+        // index vs email -> returns false
+        assertFalse(deleteFirstCommand.equals(deleteEmailCommand));
     }
+
 
     @Test
     public void toStringMethod() {
