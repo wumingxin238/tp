@@ -140,12 +140,29 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_optionalFieldsMissing_success() {
-        // zero tags
-        Person expectedPerson = new PersonBuilder(AMY)
-                .withAddress("Not provided")
-                .withTags()
-                .build();
-        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY,
+        Person expectedPerson = new Person(
+                AMY.getName(),
+                null,
+                AMY.getEmail(),
+                new seedu.address.model.person.Address("Not provided"),
+                null,
+                java.util.Collections.emptySet());
+
+        assertParseSuccess(parser, NAME_DESC_AMY + EMAIL_DESC_AMY,
+                new AddCommand(expectedPerson));
+    }
+
+    @Test
+    public void parse_telegramWithoutPhone_success() {
+        Person expectedPerson = new Person(
+                BOB.getName(),
+                null,
+                BOB.getEmail(),
+                new seedu.address.model.person.Address("Not provided"),
+                new TelegramHandle(VALID_TELEGRAM_HANDLE_BOB),
+                java.util.Collections.emptySet());
+
+        assertParseSuccess(parser, NAME_DESC_BOB + EMAIL_DESC_BOB + TELEGRAM_HANDLE_DESC_BOB,
                 new AddCommand(expectedPerson));
     }
 

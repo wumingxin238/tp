@@ -92,4 +92,13 @@ public class PersonTest {
                 + ", telegramHandle=" + ALICE.getTelegramHandle() + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }
+
+    @Test
+    public void toStringMethod_withTelegramHandle() {
+        Person person = new PersonBuilder(ALICE).withTelegramHandle("alice123").build();
+        String expected = Person.class.getCanonicalName() + "{name=" + person.getName() + ", phone=" + person.getPhone()
+                + ", email=" + person.getEmail() + ", address=" + person.getAddress()
+                + ", telegramHandle=" + person.getTelegramHandle() + ", tags=" + person.getTags() + "}";
+        assertEquals(expected, person.toString());
+    }
 }
