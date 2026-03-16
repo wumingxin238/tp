@@ -12,6 +12,12 @@ public class NameOrEmailContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> nameKeywords;
     private final List<String> emailKeywords;
 
+    /**
+     * Constructs the Predicate using a list of name keywords and a list of email keywords.
+     *
+     * @param nameKeywords A list of name keywords
+     * @param emailKeywords A list of email keywords
+     */
     public NameOrEmailContainsKeywordsPredicate(List<String> nameKeywords, List<String> emailKeywords) {
         this.nameKeywords = nameKeywords;
         this.emailKeywords = emailKeywords;
@@ -19,8 +25,8 @@ public class NameOrEmailContainsKeywordsPredicate implements Predicate<Person> {
 
     @Override
     public boolean test(Person person) {
-        return new NameContainsKeywordsPredicate(this.nameKeywords).test(person) ||
-                new EmailContainsKeywordsPredicate(this.emailKeywords).test(person);
+        return new NameContainsKeywordsPredicate(this.nameKeywords).test(person)
+                || new EmailContainsKeywordsPredicate(this.emailKeywords).test(person);
     }
 
     @Override
@@ -34,8 +40,8 @@ public class NameOrEmailContainsKeywordsPredicate implements Predicate<Person> {
             return false;
         }
 
-        return this.nameKeywords.equals(otherPredicate.nameKeywords) &&
-                this.emailKeywords.equals(otherPredicate.emailKeywords);
+        return this.nameKeywords.equals(otherPredicate.nameKeywords)
+                && this.emailKeywords.equals(otherPredicate.emailKeywords);
     }
 
     @Override
