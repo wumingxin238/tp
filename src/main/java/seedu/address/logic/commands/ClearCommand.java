@@ -12,12 +12,32 @@ public class ClearCommand extends Command {
 
     public static final String COMMAND_WORD = "clear";
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
+    public static final String MESSAGE_UNDO_SUCCESS = "Undo clear address book.";
+    public static final String MESSAGE_UNDO_FAILURE = "Cannot undo clear before command execution.";
+
+    private AddressBook previousAddressBook;
 
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        previousAddressBook = new AddressBook(model.getAddressBook());
         model.setAddressBook(new AddressBook());
         return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+    @Override
+    public boolean isUndoable() {
+        return true;
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        requireNonNull(model);
+        if (previousAddressBook == null) {
+            return new CommandResult(MESSAGE_UNDO_FAILURE);
+        }
+        model.setAddressBook(previousAddressBook);
+        return new CommandResult(MESSAGE_UNDO_SUCCESS);
     }
 }

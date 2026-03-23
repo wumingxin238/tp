@@ -30,6 +30,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TagCommand;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameOrEmailContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -125,6 +126,12 @@ public class AddressBookParserTest {
         expectedTags.add(new Tag("friends", TagType.GENERAL));
 
         assertEquals(new TagCommand(INDEX_FIRST_PERSON, expectedTags), command);
+    }
+
+    @Test
+    public void parseCommand_undo() throws Exception {
+        assertTrue(parser.parseCommand(UndoCommand.COMMAND_WORD) instanceof UndoCommand);
+        assertTrue(parser.parseCommand(UndoCommand.COMMAND_WORD + " 1") instanceof UndoCommand);
     }
 
     @Test
