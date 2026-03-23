@@ -28,7 +28,7 @@ public class NameEmailTagPredicateTest {
         List<String> thirdNameKeywordList = List.of("third");
         List<String> thirdEmailKeywordList = List.of("third@u.nus.edu");
 
-        NameEmailTagPredicate firstPredicate= new NameEmailTagPredicate(
+        NameEmailTagPredicate firstPredicate = new NameEmailTagPredicate(
                 firstNameKeywordList, firstEmailKeywordList, firstTagSet);
         NameEmailTagPredicate secondPredicate = new NameEmailTagPredicate(
                 secondNameKeywordList, secondEmailKeywordList, secondTagSet);
@@ -56,14 +56,14 @@ public class NameEmailTagPredicateTest {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alice"),
                 List.of("example.com"),
-                Set.of(new Tag("friends",  TagType.GENERAL)));
+                Set.of(new Tag("friends", TagType.GENERAL)));
 
         assertTrue(predicate.test(ALICE)); // matches all
 
         predicate = new NameEmailTagPredicate(
                 List.of("Benson"),
                 List.of("example.com"),
-                Set.of(new Tag("owesMoney",  TagType.GENERAL)));
+                Set.of(new Tag("owesMoney", TagType.GENERAL)));
         assertTrue(predicate.test(BENSON));
     }
 
@@ -86,7 +86,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_tagOnlyMatch_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of(), List.of(), Set.of(new Tag("friends",  TagType.GENERAL)));
+                List.of(), List.of(), Set.of(new Tag("friends", TagType.GENERAL)));
 
         assertTrue(predicate.test(ALICE));
     }
@@ -101,7 +101,7 @@ public class NameEmailTagPredicateTest {
     }
 
     @Test
-    public void test_emptyNameKeywords_ignored_returnsTrue() {
+    public void test_emptyNameKeywords_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of(), List.of("example.com"), Set.of(new Tag("friends", TagType.GENERAL)));
 
@@ -109,7 +109,7 @@ public class NameEmailTagPredicateTest {
     }
 
     @Test
-    public void test_emptyEmailKeywords_ignored_returnsTrue() {
+    public void test_emptyEmailKeywords_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alice"), List.of(), Set.of(new Tag("friends", TagType.GENERAL)));
 
@@ -117,7 +117,7 @@ public class NameEmailTagPredicateTest {
     }
 
     @Test
-    public void test_emptyTags_ignored_returnsTrue() {
+    public void test_emptyTags_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alice"), List.of("example.com"), Set.of());
 

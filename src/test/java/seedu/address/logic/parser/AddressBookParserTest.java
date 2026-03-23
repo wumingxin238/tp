@@ -34,7 +34,6 @@ import seedu.address.logic.commands.TagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.NameEmailTagPredicate;
-import seedu.address.model.person.NameOrEmailContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.TagType;
@@ -87,7 +86,7 @@ public class AddressBookParserTest {
         List<String> emails = List.of("gmail", "yahoo");
 
         List<String> tags = List.of("tag1", "tag2");
-        Set<Tag> tagSet= ParserUtil.parseTags(tags, TagType.GENERAL);
+        Set<Tag> tagSet = ParserUtil.parseTags(tags, TagType.GENERAL);
 
         String input = FindCommand.COMMAND_WORD + " "
                 + PREFIX_NAME + " " + String.join(" ", names) + " " // name keywords
