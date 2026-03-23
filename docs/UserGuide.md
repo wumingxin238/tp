@@ -28,7 +28,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe e/johnd@example.com p/98765432 h/johndoe123 t/friend` : Adds a contact named `John Doe` to the Address Book.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -77,15 +77,24 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE] [t/TAG]…​`
+
+* `n/NAME` and `e/EMAIL` are required.
+* `p/PHONE_NUMBER`, `h/TELEGRAM_HANDLE`, and `t/TAG` are optional.
+* A person can have any number of tags (including 0).
+* If no phone number is provided, the contact will be created without one.
+* If no Telegram handle is provided, the contact will be created without one.
+* Email must be unique. You cannot add two persons with the same email address.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
+Parameters can be entered in any order, as long as each value is preceded by the correct prefix.
 </div>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe e/johnd@example.com`
+* `add n/Betsy Crowe e/betsycrowe@example.com p/1234567 t/friend t/criminal`
+* `add n/Alex Lim e/alexlim@example.com h/alex_lim123`
+* `add e/berniceyu@example.com n/Bernice Yu p/98765432 h/bernice_yu t/project`
 
 ### Listing all persons : `list`
 
@@ -111,7 +120,7 @@ Examples:
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [h/TELEGRAM_HANDLE] [t/TAG]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
@@ -122,7 +131,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `edit 2 n/Betsy Crower h/betsyy t/` Edits the name of the 2nd person to be `Betsy Crower`, the telegram handle to be `betsyy` and clears all existing tags.
 
 ### Filtering persons by tags: `filter`
 
@@ -239,11 +248,12 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add** | `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE] [t/TAG]…​` <br> e.g., `add n/James Ho e/jamesho@example.com p/22224444 h/james_ho t/friend t/colleague`
 **Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Delete** | `delete INDEX OR delete e/EMAIL`<br> e.g., `delete i/3 OR delete e/jameslee@example.com `
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com h/jlee01`
+**Find** | `find n/NAME [MORE_NAMES] e/EMAIL [MORE_EMAILS]`<br> e.g., `find n/alex e/doe`
+**Filter** | `filter t/TAG [MORE_TAGS]…`<br> e.g., `filter t/friend t/colleague`
 **List** | `list`
 **Sort** | `sort o/ORDER [r/]`<br> e.g., `sort o/name`, `sort o/name r/`
 **Help** | `help`
