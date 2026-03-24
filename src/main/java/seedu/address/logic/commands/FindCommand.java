@@ -20,11 +20,13 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: " + PREFIX_NAME + "NAME [MORE_NAMES] " + PREFIX_EMAIL + "EMAIL [MORE_EMAILS] "
-            + PREFIX_TAG + "TAG [MORE_TAGS]\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Alice Bob " + PREFIX_EMAIL + "gmail "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names, emails, or tags "
+            + "match the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
+            + "The search uses OR logic within the same field (e.g. multiple name keywords) as well as AND logic "
+            + "across different fields (name, email, tags).\n"
+            + "Parameters: [" + PREFIX_NAME + "NAME [MORE_NAMES]] [" + PREFIX_EMAIL + "EMAIL [MORE_EMAILS]] ["
+            + PREFIX_TAG + "TAGS [MORE_TAGS]].\n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Alice Bob " + PREFIX_EMAIL + "nus "
             + PREFIX_TAG + "friends";
 
     private final Predicate<Person> predicate;
