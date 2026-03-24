@@ -14,7 +14,7 @@ public class UndoCommand extends Command {
     public static final String MESSAGE_NO_HISTORY = "No undoable command in history.";
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    public CommandResult execute(Model model) {
         throw new AssertionError("UndoCommand should be handled by LogicManager.");
     }
 }

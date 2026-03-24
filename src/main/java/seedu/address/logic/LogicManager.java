@@ -77,8 +77,10 @@ public class LogicManager implements Logic {
         if (undoHistory.isEmpty()) {
             throw new CommandException(UndoCommand.MESSAGE_NO_HISTORY);
         }
-        Command commandToUndo = undoHistory.pop();
-        return commandToUndo.undo(model);
+        Command commandToUndo = undoHistory.peek();
+        CommandResult result = commandToUndo.undo(model);
+        undoHistory.pop();
+        return result;
     }
 
     @Override
