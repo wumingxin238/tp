@@ -95,6 +95,8 @@ Opens the help window with a link to this user guide, or opens the user guide di
 
 Format: `help [COMMAND]`
 
+Alternatively, press `F1` to open the help window.
+
 * `COMMAND` is optional. When provided, it must be a valid command name (e.g. `add`, `edit`).
 * If `COMMAND` is omitted, the help window is shown.
 * If `COMMAND` is provided, your browser opens the user guide at the section for that command.
@@ -227,6 +229,8 @@ Clears all role tags from the 2nd person in the displayed list.
 Shows a list of all persons in the address book.
 
 Format: `list`
+
+Alternatively, press `F2` to list all contacts.
 
 ### Sorting persons : `sort`
 
@@ -383,6 +387,8 @@ Examples:
 Exits the program.
 
 Format: `exit`
+
+Alternatively, press `F3` to exit the application.
 
 ### Saving the data
 
