@@ -136,6 +136,31 @@ public class TagCommandTest {
     }
 
     @Test
+    public void execute_sameTagNameDifferentTypes_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        Tag roleTag = new Tag("mentor", TagType.ROLE);
+        Tag generalTag = new Tag("mentor", TagType.GENERAL);
+
+        Set<Tag> tagsToAdd = Set.of(roleTag, generalTag);
+
+        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, tagsToAdd);
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
+        expectedTags.add(roleTag);
+        expectedTags.add(generalTag); // both should be added as they're different types
+
+        Person editedPerson = personToEdit.withTags(expectedTags);
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(tagCommand, model,
+                String.format(TagCommand.MESSAGE_SUCCESS, tagsToAdd),
+                expectedModel);
+    }
+
+    @Test
     public void execute_invalidIndex_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
 
@@ -218,7 +243,7 @@ public class TagCommandTest {
     }
 
     @Test
-    public void toStringMethod_containsFields() {
+    public void toStringMethod() {
         Set<Tag> tagsToAdd = Set.of(
                 new Tag("cs2103", TagType.COURSE),
                 new Tag("tutor", TagType.ROLE)
@@ -227,7 +252,7 @@ public class TagCommandTest {
         TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, tagsToAdd);
 
         String expected = TagCommand.class.getCanonicalName()
-                + "{tagsToAdd=" + tagsToAdd + "}";
+                + "{index=" + INDEX_FIRST_PERSON + ", tagsToAdd=" + tagsToAdd + "}";
 
         assertEquals(expected, tagCommand.toString());
     }
