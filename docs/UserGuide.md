@@ -91,11 +91,10 @@ Examples:
 
 Adds a person to the address book.
 
-Format: `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE] [t/TAG]…​`
+Format: `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE]`
 
 * `n/NAME` and `e/EMAIL` are required.
-* `p/PHONE_NUMBER`, `h/TELEGRAM_HANDLE`, and `t/TAG` are optional.
-* A person can have any number of tags (including 0).
+* `p/PHONE_NUMBER` and `h/TELEGRAM_HANDLE` are optional.
 * If no phone number is provided, the contact will be created without one.
 * If no Telegram handle is provided, the contact will be created without one.
 * Email must be unique. You cannot add two persons with the same email address.
@@ -106,9 +105,9 @@ Parameters can be entered in any order, as long as each value is preceded by the
 
 Examples:
 * `add n/John Doe e/johnd@example.com`
-* `add n/Betsy Crowe e/betsycrowe@example.com p/1234567 t/friend t/criminal`
+* `add n/Betsy Crowe e/betsycrowe@example.com p/1234567`
 * `add n/Alex Lim e/alexlim@example.com h/alex_lim123`
-* `add e/berniceyu@example.com n/Bernice Yu p/98765432 h/bernice_yu t/project`
+* `add e/berniceyu@example.com n/Bernice Yu p/98765432 h/bernice_yu`
 
 ### Listing all persons : `list`
 
