@@ -355,10 +355,10 @@ Format: `undo`
 **Undoable commands:**
 
 ```
-* `add`
-* `delete`
-* `edit`
-* `clear`
+add
+delete
+edit
+clear
 ```
 Commands that are not listed above **cannot be undone**.
 
@@ -369,30 +369,33 @@ You can repeatedly use `undo` to step backwards through your previous changes.
 Examples:
 
 ```
-* `add n/John Doe e/john@example.com`  
-  `undo`  
-  ```
+add n/John Doe e/john@example.com
+undo
+```
   Reverts the addition of John Doe.
 
 ```
-* `delete i/2`  
-  `undo`  
-  ```
+*delete i/2
+undo
+```
   Restores the previously deleted person.
 
 ```
-* `edit 1 n/Alex Tan`  
-  `undo`  
-  ```
+*edit 1 n/Alex Tan
+undo
+```
   Restores the original details of the 1st person.
 
 ```
-* `clear`  
-  `undo`  
-  ```
+*clear
+undo
+```
   Restores all previously deleted contacts.
 
-* `undo` (when no more commands to undo)  
+```
+undo
+```
+  (when no more commands to undo)  
   Shows an error message indicating that there are no actions to undo.
 
 ### Exiting the program : `exit`
