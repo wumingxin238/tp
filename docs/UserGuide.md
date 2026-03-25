@@ -15,11 +15,11 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103-F11-2/tp/releases).
+1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your CampusBridge application.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBridge-v1.3.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -94,6 +94,8 @@ Opens the help window with a link to this user guide, or opens the user guide di
 ![help message](images/helpMessage.png)
 
 Format: `help [COMMAND]`
+
+Alternatively, press `F1` to open the help window.
 
 * `COMMAND` is optional. When provided, it must be a valid command name (e.g. `add`, `edit`).
 * If `COMMAND` is omitted, the help window is shown.
@@ -229,6 +231,8 @@ Shows a list of all persons in the address book.
 
 Format: `list`
 
+Alternatively, press `F2` to list all contacts.
+
 ### Sorting persons : `sort`
 
 Sorts the list of persons by the specified order.
@@ -348,12 +352,14 @@ Format: `undo`
 * Multiple undo operations can be performed consecutively, up to the number of undoable commands previously executed.
 * If there are no commands to undo, an error message will be shown.
 
-**Undoable commands:**
-* `add`
-* `delete`
-* `edit`
-* `clear`
+Undoable commands:
 
+```
+add
+delete
+edit
+clear
+```
 Commands that are not listed above **cannot be undone**.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -361,23 +367,35 @@ You can repeatedly use `undo` to step backwards through your previous changes.
 </div>
 
 Examples:
-* `add n/John Doe e/john@example.com`  
-  `undo`  
+
+```
+add n/John Doe e/john@example.com
+undo
+```
   Reverts the addition of John Doe.
 
-* `delete i/2`  
-  `undo`  
+```
+delete i/2
+undo
+```
   Restores the previously deleted person.
 
-* `edit 1 n/Alex Tan`  
-  `undo`  
+```
+edit 1 n/Alex Tan
+undo
+```
   Restores the original details of the 1st person.
 
-* `clear`  
-  `undo`  
+```
+clear
+undo
+```
   Restores all previously deleted contacts.
 
-* `undo` (when no more commands to undo)  
+```
+undo
+```
+  (when no more commands to undo)  
   Shows an error message indicating that there are no actions to undo.
 
 ### Exiting the program : `exit`
@@ -385,6 +403,8 @@ Examples:
 Exits the program.
 
 Format: `exit`
+
+Alternatively, press `F3` to exit the application.
 
 ### Saving the data
 
@@ -436,3 +456,12 @@ Action | Format, Examples
 **Untag** | `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`<br> e.g., `untag 3 tr/tutor tc/cs2103`
 **Undo** | `undo`
 **Exit** | `exit`
+
+## Keyboard shortcuts summary
+
+Action | Shortcut
+--------|----------
+**Help** | `F1`
+**List all contacts** | `F2`
+**Exit application** | `F3`
+**Clear input box** | `Delete`
