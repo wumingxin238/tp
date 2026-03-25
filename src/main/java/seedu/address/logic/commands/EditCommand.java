@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -30,6 +31,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.TelegramHandle;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.TagType;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -105,7 +107,9 @@ public class EditCommand extends Command {
     }
 
     private static Set<Tag> filterByType(Set<Tag> tags, TagType type) {
-        return tags.stream().filter(t -> t.type == type).collect(Collectors.toSet());
+        return tags.stream()
+                .filter(t -> t.getType() == type)
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -143,7 +147,19 @@ public class EditCommand extends Command {
         TelegramHandle telegramHandle = editPersonDescriptor.getTelegramHandle()
                 .orElse(personToEdit.getTelegramHandle());
 
-        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Set<Tag> existingTags = personToEdit.getTags();
+        Set<Tag> existingRoleTags = filterByType(existingTags, TagType.ROLE);
+        Set<Tag> existingCourseTags = filterByType(existingTags, TagType.COURSE);
+        Set<Tag> existingGeneralTags = filterByType(existingTags, TagType.GENERAL);
+
+        Set<Tag> updatedRoleTags = editPersonDescriptor.getRoleTags().orElse(existingRoleTags);
+        Set<Tag> updatedCourseTags = editPersonDescriptor.getCourseTags().orElse(existingCourseTags);
+        Set<Tag> updatedGeneralTags = editPersonDescriptor.getGeneralTags().orElse(existingGeneralTags);
+
+        Set<Tag> updatedTags = new HashSet<>();
+        updatedTags.addAll(updatedRoleTags);
+        updatedTags.addAll(updatedCourseTags);
+        updatedTags.addAll(updatedGeneralTags);
 
         return new Person(updatedName, updatedPhone, updatedEmail, telegramHandle, updatedTags);
     }
