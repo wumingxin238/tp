@@ -95,6 +95,8 @@ Opens the help window with a link to this user guide, or opens the user guide di
 
 Format: `help [COMMAND]`
 
+Alternatively, press `F1` to open the help window.
+
 * `COMMAND` is optional. When provided, it must be a valid command name (e.g. `add`, `edit`).
 * If `COMMAND` is omitted, the help window is shown.
 * If `COMMAND` is provided, your browser opens the user guide at the section for that command.
@@ -116,6 +118,7 @@ Format: `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE]`
 * If no phone number is provided, the contact will be created without one.
 * If no Telegram handle is provided, the contact will be created without one.
 * Email must be unique. You cannot add two persons with the same email address.
+* Telegram handle, if provided, must be unique. You cannot add two persons with the same Telegram handle.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Parameters can be entered in any order, as long as each value is preceded by the correct prefix.
@@ -228,6 +231,8 @@ Shows a list of all persons in the address book.
 
 Format: `list`
 
+Alternatively, press `F2` to list all contacts.
+
 ### Sorting persons : `sort`
 
 Sorts the list of persons by the specified order.
@@ -246,13 +251,14 @@ Examples:
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [h/TELEGRAM_HANDLE]`
+Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE]`
 
 * Edits the person at the specified `INDEX`. 
 * The index refers to the index number shown in the displayed person list. 
 * The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* The updated email and Telegram handle, if provided, must remain unique.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
@@ -336,11 +342,69 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+### Undoing the last action : `undo`
+
+Reverts the most recent **undoable command** executed.
+
+Format: `undo`
+
+* Undoes the last executed command that supports undo.
+* Multiple undo operations can be performed consecutively, up to the number of undoable commands previously executed.
+* If there are no commands to undo, an error message will be shown.
+
+Undoable commands:
+
+```
+add
+delete
+edit
+clear
+```
+Commands that are not listed above **cannot be undone**.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can repeatedly use `undo` to step backwards through your previous changes.
+</div>
+
+Examples:
+
+```
+add n/John Doe e/john@example.com
+undo
+```
+  Reverts the addition of John Doe.
+
+```
+delete i/2
+undo
+```
+  Restores the previously deleted person.
+
+```
+edit 1 n/Alex Tan
+undo
+```
+  Restores the original details of the 1st person.
+
+```
+clear
+undo
+```
+  Restores all previously deleted contacts.
+
+```
+undo
+```
+  (when no more commands to undo)  
+  Shows an error message indicating that there are no actions to undo.
+
 ### Exiting the program : `exit`
 
 Exits the program.
 
 Format: `exit`
+
+Alternatively, press `F3` to exit the application.
 
 ### Saving the data
 
@@ -390,3 +454,14 @@ Action | Format, Examples
 **Sort** | `sort o/ORDER [r/]`<br> e.g., `sort o/name`, `sort o/name r/`
 **Tag** | `tag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`<br> e.g., `tag 1 tg/friends tc/cs2103`
 **Untag** | `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`<br> e.g., `untag 3 tr/tutor tc/cs2103`
+**Undo** | `undo`
+**Exit** | `exit`
+
+## Keyboard shortcuts summary
+
+Action | Shortcut
+--------|----------
+**Help** | `F1`
+**List all contacts** | `F2`
+**Exit application** | `F3`
+**Clear input box** | `Delete`
