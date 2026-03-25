@@ -197,15 +197,15 @@ public class AddCommandParserTest {
     public void parse_knownNonAddPrefixes_failure() {
         assertParseFailure(parser,
                 NAME_DESC_BOB + EMAIL_DESC_BOB + " " + PREFIX_ROLE_TAG + "tutor",
-                "Invalid command format: unexpected extra input in add command: 'tr/tutor'.");
+                "Invalid command format! \nUnexpected extra input in add command: 'tr/tutor'.");
 
         assertParseFailure(parser,
                 NAME_DESC_BOB + EMAIL_DESC_BOB + " " + PREFIX_INDEX + "3",
-                "Invalid command format: unexpected extra input in add command: 'i/3'.");
+                "Invalid command format! \nUnexpected extra input in add command: 'i/3'.");
 
         assertParseFailure(parser,
                 NAME_DESC_BOB + EMAIL_DESC_BOB + " " + PREFIX_TAG + "friend",
-                "Invalid command format: unexpected extra input in add command: 't/friend'.");
+                "Invalid command format! \nUnexpected extra input in add command: 't/friend'.");
     }
 
     @Test
@@ -232,13 +232,13 @@ public class AddCommandParserTest {
     public void parse_multipleKnownNonAddPrefixes_reportsEarliestPrefix() {
         assertParseFailure(parser,
                 NAME_DESC_BOB + EMAIL_DESC_BOB + " " + PREFIX_INDEX + "3 " + PREFIX_ROLE_TAG + "tutor",
-                "Invalid command format: unexpected extra input in add command: 'i/3'.");
+                "Invalid command format! \nUnexpected extra input in add command: 'i/3'.");
     }
 
     @Test
     public void parse_multipleKnownNonAddPrefixes_replacesWithEarlierPrefix() {
         assertParseFailure(parser,
                 NAME_DESC_BOB + EMAIL_DESC_BOB + " " + PREFIX_ROLE_TAG + "tutor " + PREFIX_INDEX + "3",
-                "Invalid command format: unexpected extra input in add command: 'tr/tutor'.");
+                "Invalid command format! \nUnexpected extra input in add command: 'tr/tutor'.");
     }
 }

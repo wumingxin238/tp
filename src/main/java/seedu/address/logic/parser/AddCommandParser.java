@@ -25,7 +25,7 @@ import seedu.address.model.person.TelegramHandle;
 public class AddCommandParser implements Parser<AddCommand> {
 
     private static final String MESSAGE_UNEXPECTED_EXTRA_INPUT =
-            "Invalid command format: unexpected extra input in add command: '%s'.";
+            "Invalid command format! \nUnexpected extra input in add command: '%s'.";
 
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand
