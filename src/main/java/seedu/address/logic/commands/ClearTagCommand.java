@@ -5,9 +5,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_COURSE_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GENERAL_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE_TAG;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
@@ -64,19 +64,17 @@ public class ClearTagCommand extends Command {
         Person personToClearTag = lastShownList.get(index.getZeroBased());
 
         // collect all tags of the type to remove
-        Set<Tag> updatedTags = new HashSet<>(personToClearTag.getTags());
-        Set<Tag> removedTags = new HashSet<>();
-        for (Tag tag : personToClearTag.getTags()) {
-            if (tag.getType() == typeToClear) {
-                removedTags.add(tag);
-            }
-        }
+        Set<Tag> removedTags = personToClearTag.getTags().stream()
+                .filter(tag -> tag.getType() == typeToClear)
+                .collect(Collectors.toSet());
 
         if (removedTags.isEmpty()) {
             throw new CommandException(String.format(MESSAGE_NO_TAGS_FOUND, typeToClear));
         }
 
-        updatedTags.removeAll(removedTags);
+        Set<Tag> updatedTags = personToClearTag.getTags().stream()
+                .filter(tag -> tag.getType() != typeToClear)
+                .collect(Collectors.toSet());
 
         Person editedPerson = personToClearTag.withTags(updatedTags);
 
