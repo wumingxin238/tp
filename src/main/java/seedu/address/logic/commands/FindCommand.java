@@ -32,6 +32,8 @@ public class FindCommand extends Command {
     private final Predicate<Person> predicate;
 
     public FindCommand(Predicate<Person>predicate) {
+        requireNonNull(predicate);
+
         this.predicate = predicate;
     }
 
