@@ -7,6 +7,8 @@ import static seedu.address.logic.commands.SortCommand.SORT_COMPARATORS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ORDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REVERSE;
 
+import java.util.TreeMap;
+
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -34,9 +36,18 @@ public class SortCommandParser implements Parser<SortCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
-        if (!SORT_COMPARATORS.containsKey(order.toLowerCase())) {
+        String normalizedOrder = order.toLowerCase();
+
+        if ("none".equals(normalizedOrder)) {
+            if (argMultimap.getValue(PREFIX_REVERSE).isPresent()) {
+                throw new ParseException(MESSAGE_INVALID_REVERSE_FLAG);
+            }
+            return new SortCommand("none", false);
+        }
+
+        if (!SORT_COMPARATORS.containsKey(normalizedOrder)) {
             throw new ParseException(String.format(MESSAGE_INVALID_SORT_ORDER,
-                    String.join(", ", SORT_COMPARATORS.keySet())));
+                    String.join(", ", new TreeMap<>(SORT_COMPARATORS).keySet()) + ", none"));
         }
 
         if (argMultimap.getValue(PREFIX_REVERSE).isPresent()
@@ -46,6 +57,6 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         boolean reverse = argMultimap.getValue(PREFIX_REVERSE).isPresent();
 
-        return new SortCommand(order.toLowerCase(), reverse);
+        return new SortCommand(normalizedOrder, reverse);
     }
 }
