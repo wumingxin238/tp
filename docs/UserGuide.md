@@ -19,7 +19,7 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 
 1. Copy the file to the folder you want to use as the _home folder_ for your CampusBridge application.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBridge-v1.3.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBridge-v1.4.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -57,7 +57,7 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -165,6 +165,56 @@ Examples:
 * `add n/Alex Lim e/alexlim@example.com h/alex_lim123`
 * `add e/berniceyu@example.com n/Bernice Yu p/98765432 h/bernice_yu`
 
+### Editing a person : `edit`
+
+Edits an existing person in the address book.
+
+Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE]`
+
+* Edits the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* The updated email and Telegram handle, if provided, must remain unique.
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:**
+If the updated email is not an NUS domain (`@u.nus.edu` or `@nus.edu.sg`), a warning message will be shown. The contact will still be updated.
+</div>
+
+Examples:
+*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
+*  `edit 2 n/Betsy Crower h/betsyy` Edits the name of the 2nd person to be `Betsy Crower` and the telegram handle to be `betsyy`.
+
+### Deleting a person : `delete`
+
+Deletes the specified person from the address book.
+
+Format:
+* `delete i/INDEX`
+  * Deletes the person at the specified `INDEX`.
+  * The index refers to the index number shown in the displayed person list.
+  * The index **must be a positive integer** 1, 2, 3, …​
+
+* `delete e/EMAIL`
+  * Deletes the person with the specified `EMAIL`.
+  * The email refers to the email address of a person shown in the displayed person list.
+  * The email **must be a valid email address**.
+  * Email matching is **case-insensitive**.
+
+<div markdown="block" class="alert alert-info">:information_source: **NOTE:**
+Only one of `i/INDEX` or `e/EMAIL` can be provided at a time.
+</div>
+
+Examples:
+* Delete by index
+  * `list` followed by `delete i/2` deletes the 2nd person in the address book.
+  * `find n/Betsy` followed by `delete i/1` deletes the 1st person in the results of the `find` command.
+
+* Delete by email
+  * `list` followed by `delete e/betsy@example.com` deletes the person with email `betsy@example.com` in the address book.
+  * `find n/Betsy` followed by `delete e/BETSY@example.com` deletes the person with email `BETSY@example.com` in the results of the `find` command (case-insensitive match also works).
+
 ### Tagging a person : `tag`
 
 Adds one or more tags to an existing person in the address book.
@@ -188,13 +238,13 @@ Obtain the index by using: `list` command to display all persons or `find` comma
 </div>
 
 Examples:
-* `tag 1 tg/friends`   
+* `tag 1 tg/friends`
 Adds the `friends` general tag to the 1st person in the displayed list.
 
-* `tag 2 tr/tutor tc/cs2103 tg/helpful`  
+* `tag 2 tr/tutor tc/cs2103 tg/helpful`
 Adds the `tutor` role tag, `cs2103` course tag and `helpful` general tag to the 2nd person in the displayed list.
 
-* `tag 3 tg/friends tg/groupmates`  
+* `tag 3 tg/friends tg/groupmates`
 Adds both `friends` and `groupmates` general tags to the 3rd person in the displayed list.
 
 ### Untagging a person : `untag`
@@ -205,7 +255,7 @@ Format: `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]�
 
 * Removes the specified tags from the person at the given `INDEX`.
 * The index refers to the index number shown in the displayed person list.
-* Multiple tags (of different or same types) can be removed in a single command. 
+* Multiple tags (of different or same types) can be removed in a single command.
 * Only tags currently assigned to the person will be removed.
 * Existing tags that are not specified will remain unchanged.
 * Tag matching is **case-insensitive**. e.g. `friends` and `FRIENDS` are considered the same.
@@ -225,13 +275,13 @@ Obtain the index by using: `list` command to display all persons or `find` comma
 </div>
 
 Examples:
-* `untag 1 tg/friends`  
+* `untag 1 tg/friends`
 Removes the `friends` general tag from the 1st person in the list.
 
-* `untag 2 tr/tutor tc/cs2103 tg/classmates`  
+* `untag 2 tr/tutor tc/cs2103 tg/classmates`
 Removes the `tutor` role tag, `cs2103` course tag and `classmates` general tag from the 2nd person in the list.
 
-* `untag 3 tc/cs2103 tc/cs2109`  
+* `untag 3 tc/cs2103 tc/cs2109`
 Removes both `cs2103` and `cs2109` course tags from the 3rd person in the list.
 
 ### Clearing tags from a person : `cleartag`
@@ -254,10 +304,10 @@ Obtain the index by using: `list` command to display all persons or `find` comma
 </div>
 
 Examples:
-* `cleartag 1 tg/`  
+* `cleartag 1 tg/`
 Clears all general tags from the 1st person in the displayed list.
 
-* `cleartag 2 tr/`  
+* `cleartag 2 tr/`
 Clears all role tags from the 2nd person in the displayed list.
 
 ### Listing all persons : `list`
@@ -303,27 +353,6 @@ Examples:
 * `sort o/none`
   Resets the list to its default order.
 
-### Editing a person : `edit`
-
-Edits an existing person in the address book.
-
-Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE]`
-
-* Edits the person at the specified `INDEX`. 
-* The index refers to the index number shown in the displayed person list. 
-* The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* The updated email and Telegram handle, if provided, must remain unique.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:**
-If the updated email is not an NUS domain (`@u.nus.edu` or `@nus.edu.sg`), a warning message will be shown. The contact will still be updated.
-</div>
-
-Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower h/betsyy` Edits the name of the 2nd person to be `Betsy Crower` and the telegram handle to be `betsyy`.
-
 ### Locating persons by name/email/tag : `find`
 
 Finds persons whose names, emails, or tags match the given keywords.
@@ -335,72 +364,37 @@ Format: `find [n/NAME [MORE_NAMES]] [e/EMAIL [MORE_EMAILS]] [t/TAG [MORE_TAGS]]`
 * The order of keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 
 **Matching behavior:**
-* **Name** and **email** use substring matching.  
+* **Name** and **email** use substring matching.
   e.g. `Jo` will match `John` and `Alice Johnson`
-* **Tags** use exact matching.  
+* **Tags** use exact matching.
   e.g. `cs2103` will match tag `cs2103` but not `cs210`
-* Multiple keywords within the same field are combined using **OR**.  
+* Multiple keywords within the same field are combined using **OR**.
   e.g. `n/Alex David` will match `Alex Yeoh` or `David Li`
-* Different fields are combined using **AND**.  
+* Different fields are combined using **AND**.
   e.g. `n/Alex e/gmail` will match persons whose name contains `Alex` **and** email contains `gmail`
 
 Examples:
-* `find n/John`  
+* `find n/John`
   Returns all persons whose names contain `John`
 
-* `find e/gmail`  
+* `find e/gmail`
   Returns all persons whose emails contain `gmail`
 
-* `find t/friends`  
+* `find t/friends`
   Returns all persons tagged with `friends`
 
-* `find n/alex e/u.nus.edu`  
+* `find n/alex e/u.nus.edu`
   Returns persons whose name contains `alex` **and** email contains `u.nus.edu`
 
-* `find n/alex t/friends`  
-  Returns persons whose name contains `alex` **and** are tagged with `friends` 
+* `find n/alex t/friends`
+  Returns persons whose name contains `alex` **and** are tagged with `friends`
 
-* `find n/alex e/nus t/friends`  
+* `find n/alex e/nus t/friends`
   Returns persons whose name contains `alex` **and** email contains `nus` **and** are tagged with `friends`
 
-* `find n/alex david`  
+* `find n/alex david`
   Returns persons whose name contains `alex` **or** `david`
   ![result for 'find alex david'](images/findAlexDavidResult.png)
-
-### Deleting a person : `delete`
-
-Deletes the specified person from the address book.
-
-Format: 
-* `delete i/INDEX`
-  * Deletes the person at the specified `INDEX`. 
-  * The index refers to the index number shown in the displayed person list.
-  * The index **must be a positive integer** 1, 2, 3, …​
-
-* `delete e/EMAIL`
-  * Deletes the person with the specified `EMAIL`.
-  * The email refers to the email address of a person shown in the displayed person list.
-  * The email **must be a valid email address**. 
-  * Email matching is **case-insensitive**.
-
-<div markdown="block" class="alert alert-info">:information_source: **NOTE:**
-Only one of `i/INDEX` or `e/EMAIL` can be provided at a time.
-</div>
-
-Examples:
-* Delete by index
-  * `list` followed by `delete i/2` deletes the 2nd person in the address book.
-  * `find n/Betsy` followed by `delete i/1` deletes the 1st person in the results of the `find` command.
-  
-* Delete by email
-  * `list` followed by `delete e/betsy@example.com` deletes the person with email `betsy@example.com` in the address book.
-  * `find n/Betsy` followed by `delete e/BETSY@example.com` deletes the person with email `BETSY@example.com` in the results of the `find` command (case-insensitive match also works).
-
-### Clearing all entries : `clear`
-
-Clears all entries from the address book.
-
-Format: `clear`
 
 ### Undoing the last action : `undo`
 
@@ -455,8 +449,14 @@ undo
 ```
 undo
 ```
-  (when no more commands to undo)  
+  (when no more commands to undo)
   Shows an error message indicating that there are no actions to undo.
+
+### Clearing all entries : `clear`
+
+Clears all entries from the address book.
+
+Format: `clear`
 
 ### Exiting the program : `exit`
 
@@ -478,10 +478,6 @@ CampusBridge data are saved automatically as a JSON file `[JAR file location]/da
 If your changes to the data file makes its format invalid, CampusBridge will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause CampusBridge to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
