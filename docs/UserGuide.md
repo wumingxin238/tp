@@ -270,17 +270,23 @@ Alternatively, press `F2` to list all contacts.
 
 ### Sorting persons : `sort`
 
-Sorts the list of persons by the specified order.
+Sorts the list of persons by the specified field, or resets to the default order.
 
 Format: `sort o/ORDER [r/]`
 
-* `ORDER` is case-insensitive. The currently supported value is:
+* `ORDER` is case-insensitive. The supported values are:
   * `name` — sorts persons alphabetically by name (A–Z)
-* The `r/` flag is optional. When included, the sort order is reversed (Z–A for `name`).
+  * `email` — sorts persons alphabetically by email address
+  * `phone` — sorts persons lexicographically by phone number; persons without a phone number appear last
+  * `none` — resets the list to its default (insertion) order; the `r/` flag is not allowed with `none`
+* The `r/` flag is optional. When included, the sort order is reversed.
 
 Examples:
 * `sort o/name` sorts all persons alphabetically by name.
-* `sort o/name r/` sorts all persons in reverse alphabetical order.
+* `sort o/name r/` sorts all persons in reverse alphabetical order by name.
+* `sort o/email` sorts all persons alphabetically by email.
+* `sort o/phone r/` sorts all persons in reverse lexicographic order by phone number.
+* `sort o/none` resets the list to its default order.
 
 ### Editing a person : `edit`
 
@@ -493,7 +499,7 @@ Action | Format, Examples
 **Find** | `find [n/NAME [MORE_NAMES]] [e/EMAIL [MORE_EMAILS]] [t/TAG [MORE_TAGS]]`<br> e.g., `find n/alex e/gmail t/friends`
 **Help** | `help [COMMAND]`<br> e.g., `help`, `help add`, `help sort`
 **List** | `list`
-**Sort** | `sort o/ORDER [r/]`<br> e.g., `sort o/name`, `sort o/name r/`
+**Sort** | `sort o/ORDER [r/]`<br> e.g., `sort o/name`, `sort o/email r/`, `sort o/none`
 **Tag** | `tag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`<br> e.g., `tag 1 tg/friends tc/cs2103`
 **Untag** | `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`<br> e.g., `untag 3 tr/tutor tc/cs2103`
 **Undo** | `undo`
