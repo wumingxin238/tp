@@ -13,11 +13,14 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -38,6 +41,8 @@ import seedu.address.model.tag.TagType;
 public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
+
+    private static final Logger logger = LogsCenter.getLogger(EditCommand.class);
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
             + "by the index number used in the displayed person list. "
@@ -101,6 +106,8 @@ public class EditCommand extends Command {
         originalPerson = personToEdit;
         updatedPerson = editedPerson;
 
+        logger.info("Edited person: " + personToEdit.getName() + " -> " + editedPerson.getName());
+
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
@@ -133,6 +140,7 @@ public class EditCommand extends Command {
      */
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
         assert personToEdit != null;
+        assert editPersonDescriptor != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
