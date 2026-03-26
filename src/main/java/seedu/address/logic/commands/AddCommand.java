@@ -56,7 +56,12 @@ public class AddCommand extends Command {
         }
 
         model.addPerson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+
+        String resultMessage = String.format(MESSAGE_SUCCESS, Messages.format(toAdd));
+        if (!toAdd.getEmail().isNusDomain()) {
+            resultMessage += "\n" + Messages.MESSAGE_NON_NUS_EMAIL;
+        }
+        return new CommandResult(resultMessage);
     }
 
     @Override

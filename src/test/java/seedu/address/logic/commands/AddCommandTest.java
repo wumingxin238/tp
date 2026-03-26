@@ -47,8 +47,9 @@ public class AddCommandTest {
 
         CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                commandResult.getFeedbackToUser());
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson))
+                + "\n" + Messages.MESSAGE_NON_NUS_EMAIL;
+        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -106,6 +107,16 @@ public class AddCommandTest {
     }
 
     @Test
+    public void execute_nusStaffEmail_addsWithoutWarning() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person personWithNusEmail = new PersonBuilder().withEmail("john@nus.edu.sg").build();
+
+        CommandResult commandResult = new AddCommand(personWithNusEmail).execute(modelStub);
+
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(personWithNusEmail));
+        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
+    }
+
     public void undo_afterExecute_removesPerson() {
         Model model = new ModelManager(TypicalPersons.getTypicalAddressBook(), new UserPrefs());
         Model expectedBefore = new ModelManager(model.getAddressBook(), new UserPrefs());
@@ -124,10 +135,11 @@ public class AddCommandTest {
                 expectedBefore);
     }
 
+
     @Test
     public void undo_personNoLongerInModel_throwsCommandException() {
         Model model = new ModelManager(TypicalPersons.getTypicalAddressBook(), new UserPrefs());
-        Person toAdd = new PersonBuilder(HOON).build();
+        Person toAdd = new PersonBuilder(HOON).withEmail("stefan@u.nus.edu").build();
         AddCommand addCommand = new AddCommand(toAdd);
 
         Model expectedAfterAdd = new ModelManager(model.getAddressBook(), new UserPrefs());
@@ -224,6 +236,7 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
     }
+
 
     /**
      * A Model stub that contains a single person.

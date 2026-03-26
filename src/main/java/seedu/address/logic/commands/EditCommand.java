@@ -95,7 +95,12 @@ public class EditCommand extends Command {
         updatedPerson = editedPerson;
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+
+        String resultMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+        if (!editedPerson.getEmail().isNusDomain()) {
+            resultMessage += "\n" + Messages.MESSAGE_NON_NUS_EMAIL;
+        }
+        return new CommandResult(resultMessage);
     }
 
     @Override
