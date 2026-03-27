@@ -415,6 +415,7 @@ edit
 clear
 tag
 untag
+cleartag
 ```
 Commands that are not listed above **cannot be undone**.
 
