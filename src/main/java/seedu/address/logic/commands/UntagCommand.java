@@ -37,9 +37,13 @@ public class UntagCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Tags removed: %1$s";
     public static final String MESSAGE_PARTIAL_SUCCESS = "Tags removed: %1$s\nTags not found: %2$s";
     public static final String MESSAGE_NO_TAGS_FOUND = "None of the specified tags were found";
+    public static final String MESSAGE_UNDO_SUCCESS = "Undo untag operation for: %1$s";
+    public static final String MESSAGE_UNDO_FAILURE = "Cannot undo untag before command execution.";
 
     private final Index index;
     private final Set<Tag> tagsToRemove;
+    private Person originalPerson;
+    private Person updatedPerson;
 
     /**
      * @param index        of the person in the filtered person list to remove tags.
@@ -63,6 +67,7 @@ public class UntagCommand extends Command {
         }
 
         Person personToRemoveTag = lastShownList.get(index.getZeroBased());
+        originalPerson = personToRemoveTag;
 
         RemovalResult result = removeTags(personToRemoveTag);
 
@@ -71,6 +76,7 @@ public class UntagCommand extends Command {
         }
 
         Person editedPerson = personToRemoveTag.withTags(result.updatedTags);
+        updatedPerson = editedPerson;
 
         model.setPerson(personToRemoveTag, editedPerson);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
@@ -82,6 +88,23 @@ public class UntagCommand extends Command {
 
         // full success
         return new CommandResult(String.format(MESSAGE_SUCCESS, result.removedTags));
+    }
+
+    @Override
+    public boolean isUndoable() {
+        return true;
+    }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        requireNonNull(model);
+        if (originalPerson == null || updatedPerson == null) {
+            throw new CommandException(MESSAGE_UNDO_FAILURE);
+        }
+
+        model.setPerson(updatedPerson, originalPerson);
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
+        return new CommandResult(String.format(MESSAGE_UNDO_SUCCESS, Messages.format(originalPerson)));
     }
 
     @Override

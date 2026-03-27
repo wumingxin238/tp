@@ -5,12 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CommandTestUtil.assertUndoFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertUndoSuccess;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -175,5 +178,97 @@ public class ClearTagCommandTest {
                 + "{index=" + INDEX_FIRST_PERSON + ", typeToClear=" + TagType.GENERAL + "}";
 
         assertEquals(expected, clearTagCommand.toString());
+    }
+
+    @Test
+    public void undo_afterExecute_restoresOriginalPerson() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        TagType typeToClear = TagType.ROLE;
+        ClearTagCommand clearTagCommand = new ClearTagCommand(INDEX_FIRST_PERSON, typeToClear);
+
+        Set<Tag> removedTags = personToEdit.getTags().stream()
+                .filter(tag -> tag.getType() == typeToClear)
+                .collect(Collectors.toSet());
+        Set<Tag> expectedTags = personToEdit.getTags().stream()
+                .filter(tag -> tag.getType() != typeToClear)
+                .collect(Collectors.toSet());
+
+        Model expectedAfterExecute = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Person editedPerson = personToEdit.withTags(expectedTags);
+        expectedAfterExecute.setPerson(personToEdit, editedPerson);
+        assertCommandSuccess(clearTagCommand, model,
+                String.format(ClearTagCommand.MESSAGE_SUCCESS, typeToClear, removedTags),
+                expectedAfterExecute);
+
+        Model expectedAfterUndo = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        assertUndoSuccess(clearTagCommand, model,
+                String.format(ClearTagCommand.MESSAGE_UNDO_SUCCESS, typeToClear, Messages.format(personToEdit)),
+                expectedAfterUndo);
+    }
+
+    @Test
+    public void undo_beforeExecute_throwsCommandException() {
+        ClearTagCommand clearTagCommand = new ClearTagCommand(INDEX_FIRST_PERSON, TagType.ROLE);
+        assertUndoFailure(clearTagCommand, model, ClearTagCommand.MESSAGE_UNDO_FAILURE);
+    }
+
+    @Test
+    public void undo_afterExecuteOriginalPersonNull_throwsCommandException() throws Exception {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        TagType typeToClear = TagType.ROLE;
+        ClearTagCommand clearTagCommand = new ClearTagCommand(INDEX_FIRST_PERSON, typeToClear);
+
+        Set<Tag> removedTags = personToEdit.getTags().stream()
+                .filter(tag -> tag.getType() == typeToClear)
+                .collect(Collectors.toSet());
+        Set<Tag> expectedTags = personToEdit.getTags().stream()
+                .filter(tag -> tag.getType() != typeToClear)
+                .collect(Collectors.toSet());
+
+        Model expectedAfterExecute = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Person editedPerson = personToEdit.withTags(expectedTags);
+        expectedAfterExecute.setPerson(personToEdit, editedPerson);
+        assertCommandSuccess(clearTagCommand, model,
+                String.format(ClearTagCommand.MESSAGE_SUCCESS, typeToClear, removedTags),
+                expectedAfterExecute);
+
+        Field originalPersonField = ClearTagCommand.class.getDeclaredField("originalPerson");
+        originalPersonField.setAccessible(true);
+        originalPersonField.set(clearTagCommand, null);
+
+        assertUndoFailure(clearTagCommand, model, ClearTagCommand.MESSAGE_UNDO_FAILURE);
+    }
+
+    @Test
+    public void undo_afterExecuteUpdatedPersonNull_throwsCommandException() throws Exception {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        TagType typeToClear = TagType.ROLE;
+        ClearTagCommand clearTagCommand = new ClearTagCommand(INDEX_FIRST_PERSON, typeToClear);
+
+        Set<Tag> removedTags = personToEdit.getTags().stream()
+                .filter(tag -> tag.getType() == typeToClear)
+                .collect(Collectors.toSet());
+        Set<Tag> expectedTags = personToEdit.getTags().stream()
+                .filter(tag -> tag.getType() != typeToClear)
+                .collect(Collectors.toSet());
+
+        Model expectedAfterExecute = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Person editedPerson = personToEdit.withTags(expectedTags);
+        expectedAfterExecute.setPerson(personToEdit, editedPerson);
+        assertCommandSuccess(clearTagCommand, model,
+                String.format(ClearTagCommand.MESSAGE_SUCCESS, typeToClear, removedTags),
+                expectedAfterExecute);
+
+        Field updatedPersonField = ClearTagCommand.class.getDeclaredField("updatedPerson");
+        updatedPersonField.setAccessible(true);
+        updatedPersonField.set(clearTagCommand, null);
+
+        assertUndoFailure(clearTagCommand, model, ClearTagCommand.MESSAGE_UNDO_FAILURE);
+    }
+
+    @Test
+    public void isUndoable_returnsTrue() {
+        ClearTagCommand clearTagCommand = new ClearTagCommand(INDEX_FIRST_PERSON, TagType.ROLE);
+        assertTrue(clearTagCommand.isUndoable());
     }
 }
